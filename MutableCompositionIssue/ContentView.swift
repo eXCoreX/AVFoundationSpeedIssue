@@ -44,6 +44,8 @@ struct ContentView: View {
                     Button("To whole composition") { generate(isSequential: false) }
                     Button("Segment by segment") { generate(isSequential: true) }
                 }
+                .lineLimit(1)
+                .minimumScaleFactor(0.6)
             }
             .buttonStyle(BorderedButtonStyle())
             .padding(8)
@@ -86,7 +88,6 @@ final class CompositionStore {
         asset = nil
         let targetComposition = AVMutableComposition()
         guard let targetTrack = targetComposition.addMutableTrack(withMediaType: .audio, preferredTrackID: 1) else { return }
-        targetTrack.naturalTimeScale = 44100
         guard let sourceTrack = try await sourceComposition.loadTracks(withMediaType: .audio).first else { return }
 
         let sourceTimeRange = try await sourceTrack.load(.timeRange)
